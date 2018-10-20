@@ -49,3 +49,6 @@ debug = true
 debug = true
 lto = true
 opt-level = "s"
+
+[patch.crates-io]
+nrf51-hal = { path = "../nrf51-hal/" }

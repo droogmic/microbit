@@ -1,12 +1,13 @@
 //! On-board user LEDs
 
-use hal::delay::Delay;
+// use hal::delay::Delay;
 use hal::gpio::gpio::PIN;
 use hal::gpio::gpio::{
     PIN10, PIN11, PIN12, PIN13, PIN14, PIN15, PIN4, PIN5, PIN6, PIN7, PIN8, PIN9,
 };
 use hal::gpio::{Output, PushPull};
 use hal::prelude::*;
+use nrf51::TIMER0;
 
 type LED = PIN<Output<PushPull>>;
 
@@ -93,31 +94,33 @@ impl Display {
         led_matrix
     }
 
-    /// Display 5x5 display image for a given duration
-    pub fn display(&mut self, delay: &mut Delay, led_display: [[u8; 5]; 5], duration_ms: u32) {
-        let led_matrix = Display::display2matrix(led_display);
-        self.display_pre(delay, led_matrix, duration_ms);
-    }
+    // /// Display 5x5 display image for a given duration
+    // pub fn display(&mut self, delay: &mut Delay<TIMER0>, led_display: [[u8; 5]; 5], duration_ms: u32)
+    // {
+    //     let led_matrix = Display::display2matrix(led_display);
+    //     self.display_pre(delay, led_matrix, duration_ms);
+    // }
 
-    /// Display 3x9 matrix image for a given duration
-    pub fn display_pre(&mut self, delay: &mut Delay, led_matrix: [[u8; 9]; 3], duration_ms: u32) {
-        // TODO: something more intelligent with timers
-        let loops = duration_ms / (self.rows.len() as u32 * self.delay_ms);
-        for _ in 0..loops {
-            for (row_line, led_matrix_row) in self.rows.iter_mut().zip(led_matrix.iter()) {
-                row_line.set_high();
-                for (col_line, led_matrix_val) in self.cols.iter_mut().zip(led_matrix_row.iter()) {
-                    // TODO : use value to set brightness
-                    if *led_matrix_val > 0 {
-                        col_line.set_low();
-                    }
-                }
-                delay.delay_ms(self.delay_ms);
-                for col_line in &mut self.cols {
-                    col_line.set_high();
-                }
-                row_line.set_low();
-            }
-        }
-    }
+    // /// Display 3x9 matrix image for a given duration
+    // pub fn display_pre(&mut self, delay: &mut Delay<TIMER0>, led_matrix: [[u8; 9]; 3], duration_ms: u32)
+    // {
+    //     // TODO: something more intelligent with timers
+    //     let loops = duration_ms / (self.rows.len() as u32 * self.delay_ms);
+    //     for _ in 0..loops {
+    //         for (row_line, led_matrix_row) in self.rows.iter_mut().zip(led_matrix.iter()) {
+    //             row_line.set_high();
+    //             for (col_line, led_matrix_val) in self.cols.iter_mut().zip(led_matrix_row.iter()) {
+    //                 // TODO : use value to set brightness
+    //                 if *led_matrix_val > 0 {
+    //                     col_line.set_low();
+    //                 }
+    //             }
+    //             delay.delay_ms(self.delay_ms);
+    //             for col_line in &mut self.cols {
+    //                 col_line.set_high();
+    //             }
+    //             row_line.set_low();
+    //         }
+    //     }
+    // }
 }

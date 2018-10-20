@@ -17,7 +17,7 @@ fn main() -> ! {
         loop {
             pin.set_high();
             if cfg!(debug_assertions) {
-                nop_delay(20_000);
+                nop_delay(200_000);
             } else {
                 nop_delay(1_000_000);
             }
