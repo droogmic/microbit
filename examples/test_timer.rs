@@ -195,5 +195,5 @@ fn main() -> ! {
 
     }
     
-    panic!("End");
+    panic!("FIN");
 }
